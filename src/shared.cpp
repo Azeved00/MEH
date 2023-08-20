@@ -18,7 +18,7 @@ typedef enum State {
 
 static const int screenHeight = 480;
 static const int screenWidth = 800;
-static const int CELL_SIZE= 32;
+static const int CELL_SIZE= 16;
 static const int targetFPS = 60;
 
 class Entity{

@@ -25,10 +25,10 @@ namespace TitleScreen
         {
             switch(selected){
                 case 0:
-                    return gamePlay;
+                    return generatingWorld;
                     break;
                 case 1:
-                    return gamePlay;
+                    return generatingWorld;
                     break;
                 case 2:
                     return settings;

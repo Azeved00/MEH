@@ -37,6 +37,12 @@ void Update()
         default:
             break;
     }
+
+    if(state == generatingWorld){
+        world = new World(200,true);
+        player = new Player();
+        state = gamePlay;
+    }
 }
 
 void Draw()

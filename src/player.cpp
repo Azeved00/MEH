@@ -36,7 +36,7 @@ public:
             screenHeight/2.0f - CELL_SIZE/2.0f 
         }; 
         camera.rotation = 0.0f;
-        camera.zoom = 1.5f;
+        camera.zoom = 2.0f;
 
         selectedMenu = 2;
         openMenu = false;
