@@ -12,7 +12,10 @@ typedef enum State {
     titleScreen,
     settings,
     generatingWorld,
-    exitGame
+    exitGame,
+    battle,
+    Pokedex,
+    Save
 } State;
 
 
