@@ -6,13 +6,6 @@
 
 const int playerMenuOptions = 6;
 const char* playerMenuList[] = {"Pokemon","Pokedex","Bag","Settings","Save","Quit"};
-typedef enum MenuState{
-    Pokedex,
-    Pokemon,
-    Bag,
-    Save,
-    Quit
-} MenuState;
 
 class Player : public Entity 
 {
@@ -47,7 +40,7 @@ public:
         //delete this;
     }
 
-    void Update()
+    State Update()
     {
         if(frameCounter >= 25)
         {
@@ -100,7 +93,15 @@ public:
                 if(selectedMenu < 0)
                     selectedMenu=playerMenuOptions-1;
             }
+            if(IsKeyDown(KEY_ENTER))
+            {
+                if(selectedMenu == 5){
+                    return titleScreen;
+                }
+                
+            }
         }
+        return gamePlay;
     }
 
 

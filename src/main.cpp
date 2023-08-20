@@ -17,13 +17,19 @@ void Update()
             state = TitleScreen::Update(state);
             break;
         case gamePlay:
-            player->Update();
+            state = player->Update();
+
+            if(state == titleScreen){
+                delete world;
+                delete player;
+                state = titleScreen;
+            }
 
             if(IsKeyPressed(KEY_P))
             {
                 state = pause;
             }
-            if(IsKeyPressed(KEY_ENTER))
+            if(IsKeyPressed(KEY_ESCAPE))
             {
                 player->openMenu = !player->openMenu;
             }
@@ -90,15 +96,14 @@ int main(void)
 {
     SetTargetFPS(targetFPS);
     InitWindow( screenWidth, screenHeight, "Development: pokewilds");
-    
+    SetExitKey(KEY_NULL);
+
     while (!WindowShouldClose() && state != exitGame)
     {
         Update();
         Draw();            
     }
 
-    delete world;
-    delete player;
     CloseWindow();
 
     return 0;
