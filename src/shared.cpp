@@ -5,22 +5,21 @@
 #include "math.h"
 #include <string>
 
-static const int screenHeight = 480;
-static const int screenWidth = 800;
-static const int  CELL_SIZE= 32;
-Vector2 offset = {
-    screenWidth%CELL_SIZE,
-    screenHeight%CELL_SIZE
-};
-static const int targetFPS = 60;
 
 typedef enum State {
-    GamePlay,
-    Pause,
-    TitleScreen,
-    Settings,
-    GeneratingWorld
+    gamePlay,
+    pause,
+    titleScreen,
+    settings,
+    generatingWorld,
+    exitGame
 } State;
+
+
+static const int screenHeight = 480;
+static const int screenWidth = 800;
+static const int CELL_SIZE= 32;
+static const int targetFPS = 60;
 
 class Entity{
     public: 

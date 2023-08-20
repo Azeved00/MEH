@@ -3,7 +3,16 @@
 
 #include "./shared.cpp"
 #include "./raylib.h"
-#include "./graphics.cpp"
+
+const int playerMenuOptions = 6;
+const char* playerMenuList[] = {"Pokemon","Pokedex","Bag","Settings","Save","Quit"};
+typedef enum MenuState{
+    Pokedex,
+    Pokemon,
+    Bag,
+    Save,
+    Quit
+} MenuState;
 
 class Player : public Entity 
 {
@@ -11,6 +20,8 @@ public:
     Camera2D camera;
     int frameCounter;
     bool allowMove;
+    bool openMenu;
+    int selectedMenu;
 
     Player() : Entity( 0,0, YELLOW)
     {
@@ -26,64 +37,97 @@ public:
         }; 
         camera.rotation = 0.0f;
         camera.zoom = 1.5f;
+
+        selectedMenu = 2;
+        openMenu = false;
     }
     
-    void Reset()
-    {
-    }
-
     ~Player()
     {
-        delete this;
+        //delete this;
     }
 
     void Update()
     {
-        if(frameCounter == 25)
+        if(frameCounter >= 25)
         {
             frameCounter = 0;
             allowMove = true;
         }
 
-        if (IsKeyDown(KEY_W) && allowMove)
+        if(!openMenu)
         {
-            this->posY -= 1;
-            allowMove = false;
+            if (IsKeyDown(KEY_W) && allowMove)
+            {
+                this->posY -= 1;
+                allowMove = false;
+            }
+            
+            if (IsKeyDown(KEY_S) && allowMove)
+            {
+                this->posY += 1;
+                allowMove = false;
+            }
+
+            if (IsKeyDown(KEY_A) && allowMove){
+                this->posX -= 1;
+                allowMove = false;
+            }
+
+            if (IsKeyDown(KEY_D) && allowMove){
+                this->posX += 1;
+                allowMove = false;
+            }
+
+            camera.target = {
+                (float) this->posX * CELL_SIZE ,
+                (float) this->posY * CELL_SIZE
+            };
+
+            frameCounter++;
         }
-        
-        if (IsKeyDown(KEY_S) && allowMove)
+        else
         {
-            this->posY += 1;
-            allowMove = false;
+            if(IsKeyDown(KEY_W))
+            {
+                selectedMenu++;
+                if(selectedMenu >= playerMenuOptions)
+                    selectedMenu=0;
+            }
+            if(IsKeyDown(KEY_S))
+            {
+                selectedMenu--;
+                if(selectedMenu < 0)
+                    selectedMenu=playerMenuOptions-1;
+            }
         }
-
-        if (IsKeyDown(KEY_A) && allowMove){
-            this->posX -= 1;
-            allowMove = false;
-        }
-
-        if (IsKeyDown(KEY_D) && allowMove){
-            this->posX += 1;
-            allowMove = false;
-        }
-
-        camera.target = {
-            (float) this->posX * CELL_SIZE ,
-            (float) this->posY * CELL_SIZE
-        };
-
-        frameCounter++;
     }
 
+
     void DrawMenu()
+    {
+        if(!openMenu) return;
+
+        DrawRectangle(screenWidth*0.7, 0, screenWidth*0.30, 6*45+20, DARKGRAY);
+
+
+        for(int i = 0; i < playerMenuOptions; i++)
+        {
+            DrawText(playerMenuList[i],screenWidth*0.7 + 10,10 + i*45,35,selectedMenu == i ? WHITE : BLACK);
+        }
+ 
+    }
+
+    void DrawHud()
     {
         DrawRectangle(0, 0, screenWidth*0.15, 120, DARKGRAY);
         std::string s;
 
         s = std::to_string(posX) + ", " + std::to_string(posY);
         DrawText(s.c_str(),10,70,20,BLACK);
-    }
 
+        DrawMenu();
+    }
 };
 
 

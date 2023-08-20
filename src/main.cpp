@@ -1,52 +1,39 @@
 #include "./shared.cpp"
 #include "./player.cpp"
 #include "./world.cpp"
-
-// TODO: change back to Logo
-// TODO: Find way to display logo or smth
-State state = TitleScreen;
-Player* player = new Player();
+#include "./raylib.h"
+#include "./titleScreen.cpp"
 
 
-void InitiateGraphics()
-{    
-    InitWindow( screenWidth, screenHeight, "Development: pokewilds");
-    LoadTextures();
-}
-
-void StartGame()
-{
-    state = GamePlay;
-    player->Reset();
-}
-
+State state = titleScreen;
+Player* player;
+World* world; 
 
 void Update()
 {
     switch(state)
     {
-        case TitleScreen:
-            // Press enter to change to GAMEPLAY screen
-            if (IsKeyPressed(KEY_ENTER) || IsGestureDetected(GESTURE_TAP))
-                StartGame();
+        case titleScreen:
+            state = TitleScreen::Update(state);
             break;
-        
-        case GamePlay:
+        case gamePlay:
             player->Update();
+
             if(IsKeyPressed(KEY_P))
             {
-                state = Pause;
+                state = pause;
+            }
+            if(IsKeyPressed(KEY_ENTER))
+            {
+                player->openMenu = !player->openMenu;
             }
             break;
-
-        case Pause:
+        case pause:
             if(IsKeyPressed(KEY_P))
-                state = GamePlay;
+                state = gamePlay;
             break;
-
-        case Settings:
+        case settings:
             break;
-
         default:
             break;
     }
@@ -58,43 +45,33 @@ void Draw()
     
     BeginDrawing();
     
-    //draw things not in screen
-    BeginMode2D(player->camera);
-        switch(state)
-        {
-            case GamePlay:
-                DrawWorld(player->posX,player->posY);
-                DrawMatrix();
-                player->Draw();
-                break;
-
-            default:
-                break;
-        }
-    EndMode2D();
+    if(state == gamePlay)
+    {
+        BeginMode2D(player->camera);
+            world->Draw(player->posX,player->posY);
+            player->Draw();
+        EndMode2D();
+    }
 
     //draw things allways in scren;
     switch(state)
     {
-        case TitleScreen:
-            DrawRectangle(0, 0, screenWidth, screenHeight, GREEN);
-            DrawText("MENU SCREEN", 20, 20, 40, DARKGREEN);
-            DrawText("PRESS ENTER or TAP to JUMP to GAMEPLAY SCREEN", 120, screenHeight-30, 20, DARKGREEN);
-
+        case titleScreen:
+            TitleScreen::Draw();
             break;
         
-        case GamePlay:
-            player->DrawMenu();
+        case gamePlay:
+            player->DrawHud();
             break;
 
-        case Pause:
+        case pause:
             DrawRectangle(0, 0, screenWidth, screenHeight, GOLD);
             DrawText("PAUSE SCREEN", 20, 20, 40, ORANGE);
             DrawText("PRESS P too GAMEPLAY SCREEN", 120, screenHeight-30, 20, ORANGE);
             DrawText("PRESS ENTER too GAMEPLAY SCREEN", 120, screenHeight-60, 20, ORANGE);
             break;
         
-        case Settings:
+        case settings:
             break;
         default:
             break;
@@ -106,14 +83,16 @@ void Draw()
 int main(void)
 {
     SetTargetFPS(targetFPS);
-    InitiateGraphics();
+    InitWindow( screenWidth, screenHeight, "Development: pokewilds");
     
-    while (!WindowShouldClose())
+    while (!WindowShouldClose() && state != exitGame)
     {
         Update();
         Draw();            
     }
 
+    delete world;
+    delete player;
     CloseWindow();
 
     return 0;
