@@ -7,9 +7,12 @@
 
 static const int screenHeight = 450;
 static const int screenWidth = 800;
-
+static const int  CELL_SIZE= 50;
+Vector2 offset = {
+    screenWidth%CELL_SIZE,
+    screenHeight%CELL_SIZE
+};
 static const int targetFPS = 60;
-
 
 typedef enum State {
     GamePlay,
@@ -22,26 +25,28 @@ typedef enum State {
 class Entity{
     public: 
         Color color;
-        Rectangle hitbox;
+        int posX;
+        int posY;
 
         Entity(int posX, int posY, Color color)
         {
-            this->hitbox = {(float) posX, (float) posY, screenWidth*0.12, screenHeight*0.20};
+            this->posX = posX;
+            this->posY = posY;
             this->color = color;
         }
 
-        void Update(){
+        void Update()
+        {
         }
 
         void Draw()
         {
-            DrawRectangleRec( hitbox, this->color);
-            /*DrawRectanglePro(
-                    hitbox,
-                    {},
-                    0,
-                this->color);*/
-            //DrawText(std::to_string(speed).c_str(),this->posX,this->posY,10,BLACK);
+            DrawRectangle( 
+                (float) posX * CELL_SIZE,
+                (float) posY * CELL_SIZE,
+                CELL_SIZE,
+                CELL_SIZE,
+                this->color);
         }
 };
 

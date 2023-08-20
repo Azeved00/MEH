@@ -9,26 +9,27 @@ class Player : public Entity
 {
 public:
     Camera2D camera;
-    Vector2 initial;
+    int frameCounter;
+    bool allowMove;
 
-    Player() : Entity( screenWidth*0.5*0.88, screenHeight*0.7, YELLOW)
+    Player() : Entity( 0,0, YELLOW)
     {
         this->camera = { 0 };
-        camera.target = {hitbox.x,hitbox.y};
-        camera.offset = (Vector2){ screenWidth/2.0f - hitbox.width/2.0f, 
-            screenHeight/2.0f - hitbox.height/2.0f };
+        camera.target = {
+            (float) this->posX * CELL_SIZE ,
+            (float) this->posY * CELL_SIZE
+        };
+        camera.offset = 
+        (Vector2){ 
+            screenWidth/2.0f - CELL_SIZE/2.0f, 
+            screenHeight/2.0f - CELL_SIZE/2.0f 
+        }; 
         camera.rotation = 0.0f;
         camera.zoom = 1.0f;
-
-        initial = { hitbox.x, hitbox.y };
     }
     
     void Reset()
     {
-
-        hitbox.x = initial.x;
-        hitbox.y = initial.y;
-        camera.target = {hitbox.x, hitbox.y};
     }
 
     ~Player()
@@ -38,30 +39,49 @@ public:
 
     void Update()
     {
-        if (IsKeyDown(KEY_W))
-            this->hitbox.y -= 1;
+        if(frameCounter == 25)
+        {
+            frameCounter = 0;
+            allowMove = true;
+        }
+
+        if (IsKeyDown(KEY_W) && allowMove)
+        {
+            this->posY -= 1;
+            allowMove = false;
+        }
         
-        if (IsKeyDown(KEY_S))
-            this->hitbox.y += 1;
+        if (IsKeyDown(KEY_S) && allowMove)
+        {
+            this->posY += 1;
+            allowMove = false;
+        }
 
-        if (IsKeyDown(KEY_A))
-            this->hitbox.x -= 1;
+        if (IsKeyDown(KEY_A) && allowMove){
+            this->posX -= 1;
+            allowMove = false;
+        }
 
-        if (IsKeyDown(KEY_D))
-            this->hitbox.x += 1;
-    
-        camera.target = {hitbox.x,hitbox.y};
+        if (IsKeyDown(KEY_D) && allowMove){
+            this->posX += 1;
+            allowMove = false;
+        }
 
-        //gameTime = GetTime() - gameTime;
+        camera.target = {
+            (float) this->posX * CELL_SIZE ,
+            (float) this->posY * CELL_SIZE
+        };
+
+        frameCounter++;
     }
 
-    void DrawCar()
+    void DrawMenu()
     {
-        this->Draw();
-    }
+        DrawRectangle(0, 0, screenWidth*0.15, 120, DARKGRAY);
+        std::string s;
 
-    void DrawHud()
-    {
+        s = std::to_string(posX) + ", " + std::to_string(posY);
+        DrawText(s.c_str(),10,70,20,BLACK);
     }
 
 };

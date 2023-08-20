@@ -1,12 +1,15 @@
 #include "./shared.cpp"
-#include "./graphics.cpp"
 #include "./player.cpp"
-
+#include "./world.cpp"
 
 // TODO: change back to Logo
 // TODO: Find way to display logo or smth
 State state = TitleScreen;
 Player* player = new Player();
+void InitiateGraphics()
+{
+    InitWindow( screenWidth, screenHeight, "Some Racing Game");
+}
 
 void StartGame()
 {
@@ -57,8 +60,9 @@ void Draw()
         switch(state)
         {
             case GamePlay:
-                DrawRoad();
-                player->DrawCar();
+                DrawWorld(0,0);
+                DrawMatrix();
+                player->Draw();
                 break;
 
             default:
@@ -77,7 +81,7 @@ void Draw()
             break;
         
         case GamePlay:
-            player->DrawHud();
+            player->DrawMenu();
             break;
 
         case Pause:
