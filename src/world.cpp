@@ -7,7 +7,6 @@
 #include "rlgl.h"
 #include <vector>
 
-static const int TEXTURE_SIZE= 16;
 
 class World 
 {
@@ -108,8 +107,10 @@ void World::Draw(int posY, int posX)
         DrawMatrix();
 
     // Draw repeating background texture
-    for (int y = 0; y < screenHeight *1.5 ; y += TEXTURE_SIZE) {
-        for (int x = 0; x < screenWidth * 1.5; x += TEXTURE_SIZE) {
+    for (int y = 0; y < screenHeight *1.5 ; y += TEXTURE_SIZE) 
+    {
+        for (int x = 0; x < screenWidth * 1.5; x += TEXTURE_SIZE) 
+        {
             float px = x-(screenWidth/2);
             float py = y-(screenHeight/2);
 
