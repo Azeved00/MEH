@@ -6,9 +6,12 @@
 // TODO: Find way to display logo or smth
 State state = TitleScreen;
 Player* player = new Player();
+
+
 void InitiateGraphics()
-{
-    InitWindow( screenWidth, screenHeight, "Some Racing Game");
+{    
+    InitWindow( screenWidth, screenHeight, "Development: pokewilds");
+    LoadTextures();
 }
 
 void StartGame()
@@ -60,7 +63,7 @@ void Draw()
         switch(state)
         {
             case GamePlay:
-                DrawWorld(0,0);
+                DrawWorld(player->posX,player->posY);
                 DrawMatrix();
                 player->Draw();
                 break;

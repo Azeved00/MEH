@@ -5,9 +5,9 @@
 #include "math.h"
 #include <string>
 
-static const int screenHeight = 450;
+static const int screenHeight = 480;
 static const int screenWidth = 800;
-static const int  CELL_SIZE= 50;
+static const int  CELL_SIZE= 32;
 Vector2 offset = {
     screenWidth%CELL_SIZE,
     screenHeight%CELL_SIZE
