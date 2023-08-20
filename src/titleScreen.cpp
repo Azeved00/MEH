@@ -3,19 +3,18 @@
 
 namespace TitleScreen
 {
-
     int selected = 0;
     static const int nOptions = 4; 
     const char* options[] = {"Start New Game","Custom Seed","Settings","Exit"};
 
     State Update(State in)
     {
-        if ( IsKeyDown(KEY_S) ){
+        if ( IsKeyPressed(KEY_S) ){
             selected ++;
             if(selected >= nOptions)
                 selected=0;
         }
-        if ( IsKeyDown(KEY_W) ){
+        if ( IsKeyPressed(KEY_W) ){
             selected --;
             if(selected < 0)
                 selected=nOptions-1;

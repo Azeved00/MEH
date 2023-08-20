@@ -42,7 +42,7 @@ public:
 
     State Update()
     {
-        if(frameCounter >= 25)
+        if(frameCounter >= 15)
         {
             frameCounter = 0;
             allowMove = true;
@@ -81,19 +81,19 @@ public:
         }
         else
         {
-            if(IsKeyDown(KEY_S))
+            if(IsKeyPressed(KEY_S))
             {
                 selectedMenu++;
                 if(selectedMenu >= playerMenuOptions)
                     selectedMenu=0;
             }
-            if(IsKeyDown(KEY_W))
+            if(IsKeyPressed(KEY_W))
             {
                 selectedMenu--;
                 if(selectedMenu < 0)
                     selectedMenu=playerMenuOptions-1;
             }
-            if(IsKeyDown(KEY_ENTER))
+            if(IsKeyPressed(KEY_ENTER))
             {
                 if(selectedMenu == 5){
                     return titleScreen;
