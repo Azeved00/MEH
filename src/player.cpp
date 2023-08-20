@@ -29,9 +29,9 @@ public:
             screenHeight/2.0f - CELL_SIZE/2.0f 
         }; 
         camera.rotation = 0.0f;
-        camera.zoom = 2.0f;
+        camera.zoom = 2.2f;
 
-        selectedMenu = 2;
+        selectedMenu = 0;
         openMenu = false;
     }
     
@@ -81,13 +81,13 @@ public:
         }
         else
         {
-            if(IsKeyDown(KEY_W))
+            if(IsKeyDown(KEY_S))
             {
                 selectedMenu++;
                 if(selectedMenu >= playerMenuOptions)
                     selectedMenu=0;
             }
-            if(IsKeyDown(KEY_S))
+            if(IsKeyDown(KEY_W))
             {
                 selectedMenu--;
                 if(selectedMenu < 0)

@@ -69,7 +69,6 @@ int World::GeneratePoint(int posX, int posY)
         return 3;
     else
         return 1;
-
 }
 
 void World::DrawTextureAt(Texture2D texture, int textureX, int textureY, float posX, float posY)

@@ -53,7 +53,7 @@ void Update()
 
 void Draw()
 {
-    ClearBackground(GREEN);
+    ClearBackground(BLACK);
     
     BeginDrawing();
     

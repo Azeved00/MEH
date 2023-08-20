@@ -10,12 +10,12 @@ namespace TitleScreen
 
     State Update(State in)
     {
-        if ( IsKeyDown(KEY_W) ){
+        if ( IsKeyDown(KEY_S) ){
             selected ++;
             if(selected >= nOptions)
                 selected=0;
         }
-        if ( IsKeyDown(KEY_S) ){
+        if ( IsKeyDown(KEY_W) ){
             selected --;
             if(selected < 0)
                 selected=nOptions-1;
