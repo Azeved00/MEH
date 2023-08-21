@@ -1,6 +1,6 @@
-#include "../libs/raylib.h"
+#include "../../libs/raylib.h"
 
-#include "./shared.cpp"
+#include "../shared.cpp"
 
 namespace TitleScreen
 {

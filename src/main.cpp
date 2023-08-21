@@ -3,7 +3,7 @@
 #include "./shared.cpp"
 #include "./player.cpp"
 #include "./world.cpp"
-#include "./titleScreen.cpp"
+#include "./screens/titleScreen.cpp"
 
 
 State::State state = State::TitleScreen;
