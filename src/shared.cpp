@@ -5,26 +5,28 @@
 #include "math.h"
 #include <string>
 
-
-typedef enum State {
-    gamePlay,
-    pause,
-    titleScreen,
-    settings,
-    generatingWorld,
-    exitGame,
-    battle,
-    Pokedex,
-    Save
-} State;
-
+namespace  State
+{
+    typedef enum State {
+        GamePlay,
+        Pause,
+        TitleScreen,
+        Settings,
+        GeneratingWorld,
+        LoadingWorld,
+        ExitGame,
+        Battle,
+        Pokedex,
+        Save
+    } State;
+}
 
 static const int TEXTURE_SIZE= 16;
 static const int screenHeight = 480;
 static const int screenWidth = 800;
 static const int CELL_SIZE= 16;
-static const int targetFPS = 60;
 
+//--------------------------- Entity ----------------------------
 class Entity{
     public: 
         int posX;
@@ -76,10 +78,61 @@ class Entity{
                             TEXTURE_SIZE,
                             TEXTURE_SIZE
                         }, 
-                        (Vector2) {posX * CELL_SIZE, posY * CELL_SIZE},
+                        (Vector2) {(float) posX * CELL_SIZE, (float) posY * CELL_SIZE},
                         WHITE);
             }
         }
 };
 
+//--------------------------- Settings ----------------------------
+class Settings 
+{
+
+public:
+    Settings();
+    void Save();
+    //Settings Load();
+
+    int getTargetFPS();
+    int getRenderDistance();
+    float getZoom();
+    
+    unsigned long getSeed();
+    bool isDebug();
+    int getMaxMapSize();
+
+private:
+    static const char* path;
+    
+    int targetFPS;
+    int render;
+    float zoom;
+
+    unsigned long seed;
+    bool debug;
+    int maxSize;
+};
+
+Settings::Settings()
+{
+    this->targetFPS = 70;
+    this->render = 4;
+    this->zoom = 1.0f;
+
+    this->seed = 2;
+    this->debug = true;
+    this->maxSize = 200;
+}
+
+int Settings::getTargetFPS(){ return this->targetFPS; };
+int Settings::getRenderDistance(){ return this->render; };
+float Settings::getZoom(){ return this->zoom; };
+
+unsigned long Settings::getSeed(){ return this->seed; };
+bool Settings::isDebug(){ return this->debug; };
+int Settings::getMaxMapSize(){ return this->maxSize; };
+
+const char* Settings::path = "$HOME/.config/meh/settings.txt";
+void Settings::Save(){}
+//Settings Settings::Load(){}
 #endif

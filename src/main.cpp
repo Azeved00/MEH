@@ -5,7 +5,8 @@
 #include "./titleScreen.cpp"
 
 
-State state = titleScreen;
+State::State state = State::TitleScreen;
+Settings* settings;
 Player* player;
 World* world; 
 
@@ -13,41 +14,46 @@ void Update()
 {
     switch(state)
     {
-        case titleScreen:
+        case State::TitleScreen:
             state = TitleScreen::Update(state);
             break;
-        case gamePlay:
+        case State::GamePlay:
             state = player->Update();
 
-            if(state == titleScreen){
+            if(state == State::TitleScreen){
                 delete world;
                 delete player;
-                state = titleScreen;
+                state = State::TitleScreen;
             }
 
             if(IsKeyPressed(KEY_P))
             {
-                state = pause;
+                state = State::Pause;
             }
             if(IsKeyPressed(KEY_ESCAPE))
             {
                 player->openMenu = !player->openMenu;
             }
             break;
-        case pause:
+        case State::Pause:
             if(IsKeyPressed(KEY_P))
-                state = gamePlay;
+                state = State::GamePlay;
             break;
-        case settings:
+        case State::Settings:
             break;
         default:
             break;
     }
 
-    if(state == generatingWorld){
-        world = new World(200,true);
-        player = new Player();
-        state = gamePlay;
+    if(state == State::GeneratingWorld){
+        world = new World(settings);
+        player = new Player(settings);
+        state = State::GamePlay;
+    }
+    else if(state == State::LoadingWorld){
+        world = new World(settings,false);
+        player = new Player(settings);
+        state = State::GamePlay;
     }
 }
 
@@ -57,7 +63,7 @@ void Draw()
     
     BeginDrawing();
     
-    if(state == gamePlay)
+    if(state == State::GamePlay)
     {
         BeginMode2D(player->camera);
             world->Draw(player->posX,player->posY);
@@ -68,22 +74,22 @@ void Draw()
     //draw things allways in scren;
     switch(state)
     {
-        case titleScreen:
+        case State::TitleScreen:
             TitleScreen::Draw();
             break;
         
-        case gamePlay:
+        case State::GamePlay:
             player->DrawHud();
             break;
 
-        case pause:
+        case State::Pause:
             DrawRectangle(0, 0, screenWidth, screenHeight, GOLD);
             DrawText("PAUSE SCREEN", 20, 20, 40, ORANGE);
             DrawText("PRESS P too GAMEPLAY SCREEN", 120, screenHeight-30, 20, ORANGE);
             DrawText("PRESS ENTER too GAMEPLAY SCREEN", 120, screenHeight-60, 20, ORANGE);
             break;
         
-        case settings:
+        case State::Settings:
             break;
         default:
             break;
@@ -94,11 +100,13 @@ void Draw()
 
 int main(void)
 {
-    SetTargetFPS(targetFPS);
+    settings = new Settings();
+
+    SetTargetFPS(settings->getTargetFPS());
     InitWindow( screenWidth, screenHeight, "Development: pokewilds");
     SetExitKey(KEY_NULL);
 
-    while (!WindowShouldClose() && state != exitGame)
+    while (!WindowShouldClose() && state != State::ExitGame)
     {
         Update();
         Draw();            

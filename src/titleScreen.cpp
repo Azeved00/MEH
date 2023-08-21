@@ -7,7 +7,7 @@ namespace TitleScreen
     static const int nOptions = 4; 
     const char* options[] = {"Start New Game","Custom Seed","Settings","Exit"};
 
-    State Update(State in)
+    State::State Update(State::State in)
     {
         if ( IsKeyPressed(KEY_S) ){
             selected ++;
@@ -24,16 +24,16 @@ namespace TitleScreen
         {
             switch(selected){
                 case 0:
-                    return generatingWorld;
+                    return State::GeneratingWorld;
                     break;
                 case 1:
-                    return generatingWorld;
+                    return State::LoadingWorld;
                     break;
                 case 2:
-                    return settings;
+                    return State::Settings;
                     break;
                 case 3:
-                    return exitGame;
+                    return State::ExitGame;
                     break;
                 default:
                     break;

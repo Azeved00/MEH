@@ -16,7 +16,7 @@ public:
     bool openMenu;
     int selectedMenu;
 
-    Player() : Entity( 0,0, "./assets/Miniworld/Characters/Champions/Gangblanc.png")
+    Player(Settings* s) : Entity( 0,0, "./assets/Miniworld/Characters/Champions/Gangblanc.png")
     {
         this->camera = { 0 };
         camera.target = {
@@ -29,7 +29,7 @@ public:
             screenHeight/2.0f - CELL_SIZE/2.0f 
         }; 
         camera.rotation = 0.0f;
-        camera.zoom = 3.0f;
+        camera.zoom = s->getZoom();
 
         selectedMenu = 0;
         openMenu = false;
@@ -40,7 +40,7 @@ public:
         //delete this;
     }
 
-    State Update()
+    State::State Update()
     {
         if(frameCounter >= 15)
         {
@@ -96,12 +96,12 @@ public:
             if(IsKeyPressed(KEY_ENTER))
             {
                 if(selectedMenu == 5){
-                    return titleScreen;
+                    return State::TitleScreen;
                 }
                 
             }
         }
-        return gamePlay;
+        return State::GamePlay;
     }
 
 

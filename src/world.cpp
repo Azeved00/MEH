@@ -12,7 +12,7 @@ class World
 {
 
 public:
-    World(int,bool,unsigned long);
+    World(Settings*,bool);
     ~World();
     void Draw(int, int);
     
@@ -21,6 +21,7 @@ private:
     bool loaded;
     bool debug;
     unsigned long seed;
+
     Texture2D grass;
     Texture2D rocks;
     Texture2D water;
@@ -36,20 +37,23 @@ private:
 
 //-----------------------------------------------------------------
 
-World::World(int size,bool debug, unsigned long pseed=0)
+World::World(Settings* s, bool genNew = true)
 {
     loaded = false;
-    if(pseed == 0)
+    LoadTextures();
+    
+    if(genNew)
         seed = (unsigned long)  (time(NULL) * 10000);
     else 
-        seed = pseed;
+        seed = s->getSeed();
     
     // Create and configure FastNoise object
     noise.SetSeed(seed);
     noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
     noise.SetFrequency(0.005f);
 
-    noiseData.resize(size*size);
+    noiseData.resize(s->getMaxMapSize());
+    this->debug = s->isDebug();
 }
 
 World::~World()
