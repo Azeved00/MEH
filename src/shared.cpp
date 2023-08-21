@@ -26,6 +26,7 @@ static const int TEXTURE_SIZE= 16;
 static const int screenHeight = 480;
 static const int screenWidth = 800;
 static const int CELL_SIZE= 16;
+bool debug = false;
 
 //--------------------------- Entity ----------------------------
 class Entity{

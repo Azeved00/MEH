@@ -21,7 +21,6 @@ public:
     
 private:
     bool loaded;
-    bool debug;
     unsigned long seed;
     int size;
     int renderDistance;
@@ -54,15 +53,20 @@ World::World(Settings* s, bool genNew = true)
     noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
     noise.SetFrequency(0.005f);
 
+    printf("------------------------------------");
+    printf("Creating new world => %lu",seed);
+    printf("------------------------------------");
     size = s->getMaxMapSize();
     renderDistance = s->getRenderDistance();
     noiseData.clear();
     noiseData.resize(size*size,-1);
-    this->debug = s->isDebug();
 }
 
 World::~World()
 {
+    printf("------------------------------------");
+    printf("Deleting world => %lu",seed);
+    printf("------------------------------------");
     if(loaded)
         UnloadTexture(grassTexture);
 }
