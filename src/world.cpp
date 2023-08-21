@@ -2,11 +2,12 @@
 #define WORLD_CPP
 
 #include <iostream>
-#include "./shared.cpp"
-#include <time.h>
-#include "./FastNoiseLite.h"
-#include "rlgl.h"
 #include <vector>
+#include <time.h>
+
+#include "../libs/FastNoiseLite.h"
+#include "./shared.cpp"
+#include "rlgl.h"
 
 
 class World 
@@ -25,7 +26,7 @@ private:
     int size;
     int renderDistance;
 
-    Texture2D grass;
+    Texture2D grassTexture;
     std::vector<int> noiseData;
     FastNoiseLite noise;
 
@@ -64,10 +65,6 @@ World::~World()
 {
     if(loaded)
         UnloadTexture(grassTexture);
-    
-    //delete noise;
-    //delete noiseData;
-    //delete this;
 }
 
 int World::GeneratePoint(int posX, int posY)
@@ -90,7 +87,7 @@ int World::GeneratePoint(int posX, int posY)
 
 void World::DrawTextureAt(Texture2D texture, int textureX, int textureY, float posX, float posY)
 {
-    DrawTextureRec(grass, 
+    DrawTextureRec(texture, 
             (Rectangle){
                 (float)TEXTURE_SIZE*textureX, 
                 (float)TEXTURE_SIZE*textureY,
@@ -105,8 +102,8 @@ void World::LoadTextures()
 {
     if(loaded) return;
 
-    texture = LoadTexture("./assets/Miniworld/Ground/Grass.png");
-    if(!IsTextureReady(texture)){
+    grassTexture = LoadTexture("./assets/Miniworld/Ground/Grass.png");
+    if(!IsTextureReady(grassTexture)){
         printf("Texture Grass.png is not ready\n");
         return;
     }
@@ -138,22 +135,9 @@ void World::Draw(int posX, int posY)
             float py = k + posY;
             
             int texture = GeneratePoint(px, py);
-            DrawTextureAt(grass, texture, 0, px, py);
+            DrawTextureAt(grassTexture, texture, 0, px, py);
         }
     }
-    
-
-
-    // Draw repeating background texture
-    /*for (int y = 0; y < screenHeight *1.5 ; y += TEXTURE_SIZE) 
-    {
-        for (int x = 0; x < screenWidth * 1.5; x += TEXTURE_SIZE) 
-        {
-            float px = x-(screenWidth/2);
-            float py = y-(screenHeight/2);
-
-        }
-    }*/
 }
 
 #endif

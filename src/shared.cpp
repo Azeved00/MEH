@@ -1,9 +1,10 @@
 #ifndef SHARED_CPP
 #define SHARED_CPP
 
-#include "raylib.h"
-#include "math.h"
+#include <math.h>
 #include <string>
+
+#include "../libs/raylib.h"
 
 namespace  State
 {

@@ -1,8 +1,9 @@
 #ifndef PLAYER_CPP
 #define PLAYER_CPP
 
+#include "../libs/raylib.h"
+
 #include "./shared.cpp"
-#include "./raylib.h"
 
 const int playerMenuOptions = 6;
 const char* playerMenuList[] = {"Pokemon","Pokedex","Bag","Settings","Save","Quit"};

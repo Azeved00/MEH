@@ -1,7 +1,8 @@
+#include "../libs/raylib.h"
+
 #include "./shared.cpp"
 #include "./player.cpp"
 #include "./world.cpp"
-#include "./raylib.h"
 #include "./titleScreen.cpp"
 
 
