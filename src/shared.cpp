@@ -6,22 +6,6 @@
 
 #include "../libs/raylib.h"
 
-namespace  State
-{
-    typedef enum State {
-        GamePlay,
-        Pause,
-        TitleScreen,
-        Settings,
-        GeneratingWorld,
-        LoadingWorld,
-        ExitGame,
-        Battle,
-        Pokedex,
-        Save
-    } State;
-}
-
 static const int TEXTURE_SIZE= 16;
 static const int screenHeight = 480;
 static const int screenWidth = 800;
