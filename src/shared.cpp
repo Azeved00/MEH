@@ -51,7 +51,14 @@ class Entity{
             {
                 texture = LoadTextureFromImage(image);
                 loaded = true;
+                UnloadImage(image);
             }
+
+        }
+
+        ~Entity()
+        {
+            UnloadTexture(texture);
         }
 
         void Update()
@@ -116,8 +123,8 @@ private:
 Settings::Settings()
 {
     this->targetFPS = 70;
-    this->render = 4;
-    this->zoom = 1.0f;
+    this->render = 7;
+    this->zoom = 2.5f;
 
     this->seed = 2;
     this->debug = true;
