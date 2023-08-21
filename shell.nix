@@ -17,6 +17,7 @@ in pkgs.mkShell{
         mesa
         mesa_glu
         raylib
+        valgrind
     ];
     ROOT=root;
 
