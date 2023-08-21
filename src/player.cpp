@@ -117,7 +117,6 @@ public:
         {
             DrawText(playerMenuList[i],screenWidth*0.7 + 10,10 + i*45,35,selectedMenu == i ? WHITE : BLACK);
         }
- 
     }
 
     void DrawHud()
